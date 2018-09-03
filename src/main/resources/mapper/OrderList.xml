@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ffcs.orderdinner.dao.OrderListDao">
+    <resultMap id="orderListBean" type="OrderList">
+        <result property="commodityId" column="commodity_id"/>
+        <association property="commodity" column="commodity_id" select="com.ffcs.orderdinner.dao.CommodityDao.get"/>
+    </resultMap>
+
+    <select id="get" parameterType="int" resultMap="orderListBean">
+        select * from order_list_ where id =#{0}
+    </select>
+
+    <insert id="insert" parameterType="OrderList" >
+        insert into order_list_ values (null,#{orderId},#{commodityId},#{quantity},#{totalPrice})
+    </insert>
+
+    <select id="findByOrderId" parameterType="int" resultMap="orderListBean">
+        select * from order_list_ where order_id=#{0}
+    </select>
+
+    <delete id="delete" parameterType="int">
+        delete from order_list_ where id=#{0}
+    </delete>
+
+    <select id="findByCommodity" parameterType="int" resultMap="orderListBean">
+        select * from order_list_ where commodity_id=#{id}
+    </select>
+
+    <delete id="deleteByOrderId" parameterType="int" >
+        delete from order_list_ where order_id=#{0}
+    </delete>
+
+</mapper>

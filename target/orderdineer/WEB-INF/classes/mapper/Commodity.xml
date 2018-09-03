@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ffcs.orderdinner.dao.CommodityDao">
+    <select id="findAll" resultType="Commodity">
+        select * from commodity_
+    </select>
+    
+    <select id="findByNameLike" parameterType="String" resultType="Commodity">
+    </select>
+
+    <select id="findByPriceBetween" parameterType="double" resultType="Commodity">
+        select * from commodity_ where price between #{0} and #{1}
+    </select>
+
+    <select id="findByNameLikeAndPriceBetween" resultType="Commodity">
+        select * from  commodity_ where name like CONCAT('%',#{0},'%') and price between #{1} and #{2}
+    </select>
+
+    <select id="get" parameterType="int" resultType="Commodity">
+        select * from commodity_ where id = #{0}
+    </select>
+    
+    <insert id="insert" parameterType="Commodity" >
+        insert into commodity_ values (null,#{name},#{price},#{remark},#{image})
+    </insert>
+    
+    <update id="update" parameterType="Commodity">
+        update commodity_
+            <set>
+                <if test="name != null">
+                    name = #{name },
+                </if>
+                <if test="price !=null">
+                    price = #{price},
+                </if>
+                <if test="remark!=null">
+                    remark = #{remark},
+                </if>
+                <if test="image!=null">
+                    image = #{image}
+                </if>
+            </set>
+        where id = #{id}
+    </update>
+
+    <delete id="delete" parameterType="int">
+        delete from commodity_ where id = #{0}
+    </delete>
+
+
+</mapper>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ffcs.orderdinner.dao.UserDao">
+
+    <select id="findByPhoneNumber" parameterType="String" resultType="User">
+        select * from user_ where phone_number = #{0}
+    </select>
+
+    <select id="findByNameLike" parameterType="String" resultType="User">
+        select * from user_ where user_name = CONCAT('%',#{0},'%')
+    </select>
+
+    <select id="findAll" resultType="User">
+        select * from user_
+    </select>
+
+    <select id="get" parameterType="User" resultType="User">
+        select * from user_
+        <where>
+            <choose>
+                <when test="id!=0">
+                    and id = #{id}
+                </when>
+                <otherwise>
+                    and phone_number= #{phoneNumber} and password= #{password}
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+
+    <select id="getById" parameterType="int" resultType="User">
+        select  * from user_ where id = #{0}
+    </select>
+
+    <insert id="insert" parameterType="User" >
+        insert into user_ values (null,#{phoneNumber},#{password},#{userName})
+    </insert>
+
+    <delete id="delete" parameterType="int" >
+        delete from user_ where id = #{0}
+    </delete>
+
+    <update id="update" parameterType="User" >
+        update user_
+        <set>
+            <if test="phoneNumber!=null">
+                phone_number= #{phoneNumber},
+            </if>
+            <if test="password!=null">
+                password=#{password},
+            </if>
+            <if test="userName!=null">
+                user_name=#{userName}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+</mapper>
